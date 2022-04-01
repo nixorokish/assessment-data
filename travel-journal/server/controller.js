@@ -230,7 +230,8 @@ module.exports = {
             INSERT INTO cities (name, rating, country_id)
             VALUES ('Kabul', 4, 1),
             ('Tirana', 5, 2),
-            ('Algiers', 4, 3);
+            ('Algiers', 4, 3),
+            ('Andorra la Vella, 3, 4);
             
         `).then(() => {
             console.log('DB seeded!')
