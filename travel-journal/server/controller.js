@@ -15,12 +15,12 @@ const sequelize = new Sequelize (CONNECTION_STRING, {
 module.exports = {
     seed: (req, res) => {
         sequelize.query(`
-            drop table if exists cities;
-            drop table if exists countries;
+            DROP TABLE IF EXISTS cities;
+            DROP TABLE IF EXISTS countries;
 
-            create table countries (
-                country_id serial primary key, 
-                name varchar
+            CREATE TABLE countries (
+                country_id SERIAL PRIMARY KEY, 
+                name VARCHAR
             );
 
             CREATE TABLE cities (
@@ -30,8 +30,8 @@ module.exports = {
                 country_id INT REFERENCES countries(country_id)
             );
 
-            insert into countries (name)
-            values ('Afghanistan'),
+            INSERT INTO countries (name)
+            VALUES ('Afghanistan'),
             ('Albania'),
             ('Algeria'),
             ('Andorra'),
@@ -226,6 +226,12 @@ module.exports = {
             ('Yemen'),
             ('Zambia'),
             ('Zimbabwe');
+
+            INSERT INTO cities (name, rating, country_id)
+            VALUES ('Kabul', 4, 1),
+            ('Tirana', 5, 2),
+            ('Algiers', 4, 3);
+            
         `).then(() => {
             console.log('DB seeded!')
             res.sendStatus(200)
@@ -259,6 +265,7 @@ module.exports = {
         sequelize.query(`
             SELECT cities.city_id, cities.name AS city, rating, countries.name AS country FROM cities
             JOIN countries ON cities.country_id = countries.country_id
+            ORDER BY rating DESC
         `)
         .then(dbRes => res.status(200).send(dbRes[0]))
         .catch(err => console.log(err))
